@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:homecenter/core/utlils/http_exceptions_handler.dart';
+import 'package:homecenter/core/utils/http_exceptions_handler.dart';
 import 'package:homecenter/features/products/data/datasources/remote/dio_datasource.dart';
 import 'package:homecenter/features/products/data/models/product_dto.dart';
 

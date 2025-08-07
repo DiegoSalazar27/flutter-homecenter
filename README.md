@@ -41,8 +41,8 @@ lib/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/euro-explorer.git
-   cd euro-explorer
+   git clone https://github.com/your-username/homecenter.git
+   cd homecenter
    ```
 
 2. **Install dependencies**
@@ -50,7 +50,7 @@ lib/
    flutter pub get
    ```
 
-3. **Generate code** (for DTOs and database)
+3. **Generate code**
    ```bash
    flutter packages pub run build_runner build --delete-conflicting-outputs
    ```

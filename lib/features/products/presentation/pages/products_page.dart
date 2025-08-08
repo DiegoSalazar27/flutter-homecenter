@@ -45,7 +45,9 @@ class _ProductsPageState extends State<ProductsPage> {
                   child: Text("Presiona el botón de busqueda para comenzar"),
                 ),
               ),
-              ProductsListError() => const Center(child: Text("Error")),
+              ProductsListError() => Center(
+                child: Text("Error ${state.message}"),
+              ),
               ProductsListState() =>
                 state.query.isEmpty || state.products.isEmpty
                     ? const Center(child: Text("No hay productos"))

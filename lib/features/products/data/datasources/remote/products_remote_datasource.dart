@@ -31,13 +31,22 @@ class ProductsRemoteDatasource extends DioDatasource {
         throw const HTTPException('No data received');
       }
 
-      final results = response.data!["data"]["results"] as List<dynamic>;
-
-      return results.map(
+      var results = (response.data!["data"]["results"] as List<dynamic>).map(
         (product) {
           return ProductDto.fromJson(product as Map<String, dynamic>);
         },
       ).toList();
+
+      // Resulto ser porque el punto lo tomaba como un punto flotante, tomando solo 2 decimales,
+      // Al quitar el punto del string ya se soluciono el problema
+      results.sort((a, b) {
+        final priceA = int.parse(a.price.replaceAll("\.", ""));
+        final priceB = int.parse(b.price.replaceAll("\.", ""));
+
+        return priceA.compareTo(priceB);
+      });
+
+      return results;
     } on DioException catch (e) {
       throw HTTPException.fromDioException(e);
     } catch (e) {

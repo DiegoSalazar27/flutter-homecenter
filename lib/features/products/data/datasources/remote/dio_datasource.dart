@@ -4,8 +4,10 @@ import 'package:http_cache_drift_store/http_cache_drift_store.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DioDatasource {
-  DioDatasource({required Dio? dio, required String baseUrl})
-    : dio = dio ?? createDio(baseUrl) {
+  DioDatasource({
+    required Dio? dio,
+    required String baseUrl,
+  }) : dio = dio ?? createDio(baseUrl) {
     _initializeCache();
   }
 
@@ -16,9 +18,9 @@ class DioDatasource {
     final dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        sendTimeout: const Duration(seconds: 10),
+        connectTimeout: const Duration(milliseconds: 5000),
+        receiveTimeout: const Duration(milliseconds: 5000),
+        sendTimeout: const Duration(milliseconds: 5000),
       ),
     );
 
@@ -56,7 +58,7 @@ class DioDatasource {
 
       _cacheOptions = CacheOptions(
         store: cacheStore,
-        hitCacheOnErrorCodes: [500],
+        hitCacheOnErrorCodes: [500, 304],
         maxStale: const Duration(days: 7),
         priority: CachePriority.high,
       );
@@ -66,7 +68,7 @@ class DioDatasource {
       // Fallback to memory cache if DB cache setup fails
       _cacheOptions = CacheOptions(
         store: MemCacheStore(),
-        hitCacheOnErrorCodes: [500],
+        hitCacheOnErrorCodes: [500, 304],
         maxStale: const Duration(days: 7),
       );
 
@@ -82,14 +84,14 @@ class DioDatasource {
       return CacheOptions(
         store: MemCacheStore(),
         maxStale: maxAge,
-        hitCacheOnErrorCodes: [500],
+        hitCacheOnErrorCodes: [500, 304],
       ).toOptions();
     }
 
     return CacheOptions(
       store: _cacheOptions!.store,
       maxStale: maxAge,
-      hitCacheOnErrorCodes: [500],
+      hitCacheOnErrorCodes: [500, 304],
       priority: CachePriority.high,
     ).toOptions();
   }
